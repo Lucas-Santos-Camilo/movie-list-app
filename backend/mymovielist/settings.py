@@ -1,17 +1,5 @@
-# Basic settings.py for Django
 import os
 from pathlib import Path
-
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'mymovielist',
-]
 
 # backend/mymovielist/settings.py
 
@@ -27,7 +15,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Adicione outros aplicativos aqui
+    'mymovielist',
+    'rest_framework',
+    'movies',
 ]
 
 MIDDLEWARE = [
@@ -62,10 +52,15 @@ WSGI_APPLICATION = 'mymovielist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'movie_db',
+        'USER': 'movielist',
+        'PASSWORD': 'Lucas!123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
