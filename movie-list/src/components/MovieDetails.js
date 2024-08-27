@@ -11,7 +11,7 @@ const MovieDetails = () => {
       try {
         const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
           params: {
-            api_key: 'sua_chave_tmdb'  // Substitua pela sua chave TMDb
+            api_key: 'c1270f490dff37ccb01ff7fbe275ec99' 
           }
         });
         setMovie(response.data);
