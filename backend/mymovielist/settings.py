@@ -4,7 +4,7 @@ from pathlib import Path
 # backend/mymovielist/settings.py
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'sua-chave-secreta'
+SECRET_KEY = os.getenv('SECRET_KEY', 'uma-chave-secreta-de-fallback')
 DEBUG = True
 ALLOWED_HOSTS = []
 
