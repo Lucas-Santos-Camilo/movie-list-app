@@ -1,0 +1,22 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #0f0f0f;
+}
+
+.navbar__logo {
+    width: 100px;
+}
+
+.navbar__links a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.navbar__profile img {
+    width: 40px;
+    border-radius: 50%;
+}

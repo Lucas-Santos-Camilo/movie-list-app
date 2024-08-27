@@ -1,0 +1,28 @@
+.carousel {
+    margin-left: 20px;
+    color: white;
+}
+
+.carousel__container {
+    display: flex;
+    overflow-x: scroll;
+    padding: 20px 0;
+}
+
+.carousel__image {
+    max-height: 250px;
+    object-fit: contain;
+    margin-right: 10px;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.carousel__image:hover {
+    transform: scale(1.1);
+}
+
+.carousel h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
