@@ -53,10 +53,10 @@ WSGI_APPLICATION = 'mymovielist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'movie_db',
-        'USER': 'movielist',
-        'PASSWORD': 'Lucas!123',
-        'HOST': 'localhost',
+        'NAME': 'movielist_db',
+        'USER': 'movielist_user',
+        'PASSWORD': 'movielist',
+        'HOST': 'localhost', 
         'PORT': '5432',
     }
 }
