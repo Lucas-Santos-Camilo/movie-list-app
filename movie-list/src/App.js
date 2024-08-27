@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Search from './components/Search';
 import MovieDetails from './components/MovieDetails';
 import './App.css';
@@ -12,10 +12,10 @@ function App() {
           <h1>Movie List</h1>
         </header>
         <main>
-          <Switch>
-            <Route exact path="/" component={Search} />
-            <Route path="/movie/:id" component={MovieDetails} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Search />} />
+            <Route path="/movie/:id" element={<MovieDetails />} />
+          </Routes>
         </main>
       </div>
     </Router>
