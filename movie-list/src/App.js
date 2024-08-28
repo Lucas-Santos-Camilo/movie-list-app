@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Banner from './components/Banner/Banner';
 import MovieCarousel from './components/MovieCarousel/MovieCarousel';
-import Search from './components/Search';
 import MovieDetails from './components/MovieDetails';
 
 const App = () => {
@@ -12,7 +11,6 @@ const App = () => {
             <Navbar />
             <Banner />
             <Routes>
-                <Route path="/" element={<Search />} />
                 <Route path="/movie/:id" element={<MovieDetails />} />
             </Routes>
             <MovieCarousel 
@@ -26,14 +24,6 @@ const App = () => {
             <MovieCarousel 
                 title="Top Rated" 
                 apiUrl="https://api.themoviedb.org/3/movie/top_rated?api_key=c1270f490dff37ccb01ff7fbe275ec99" 
-            />
-            <MovieCarousel 
-                title="Action Movies" 
-                apiUrl="https://api.themoviedb.org/3/genre/action/movies?api_key=c1270f490dff37ccb01ff7fbe275ec99" 
-            />
-            <MovieCarousel 
-                title="Comedy Movies" 
-                apiUrl="https://api.themoviedb.org/3/genre/comedy/movies?api_key=c1270f490dff37ccb01ff7fbe275ec99" 
             />
         </Router>
     );
