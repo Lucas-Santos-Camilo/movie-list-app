@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Banner.css';
 
-const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99'; // Sua chave de API TMDB
+const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const POPULAR_ENDPOINT = '/movie/popular'; // Endpoint para filmes populares
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
@@ -45,22 +45,21 @@ const Banner = () => {
     };
 
     return (
-        <header className="banner">
-            {movies.length > 0 && (
-                <div className="banner__item fade-up">
-                    <img
-                        className="banner__image"
-                        src={`${IMAGE_BASE_URL}${movies[currentIndex].poster_path}`}
-                        alt={movies[currentIndex].title}
-                    />
-                    <div className="banner__contents">
+        <header 
+            className="banner"
+            style={{
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundImage: movies.length > 0 ? `url(${IMAGE_BASE_URL}${movies[currentIndex].backdrop_path})` : ''
+            }}
+        >
+            <div className="banner__contents">
+                {movies.length > 0 && (
+                    <div className="banner__item fade-up">
                         <h1 className="banner__title">{movies[currentIndex].title}</h1>
-                        <h2 className="banner__description">
-                            {movies[currentIndex].overview}
-                        </h2>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
             <div className="banner__fadeBottom"></div>
             <div className="banner__pager">
                 {movies.map((_, index) => (

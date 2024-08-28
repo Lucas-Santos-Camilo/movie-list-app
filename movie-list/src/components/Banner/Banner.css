@@ -37,9 +37,23 @@
 }
 
 .banner__title {
+    width: 20%;
     font-size: 3rem;
     font-weight: bold;
     color: #000;
+    z-index: 1;
+}
+
+.banner__title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0px;
+    width: 25%;
+    height: 100%; 
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0 80% 80% 0;
+    z-index: -1;
 }
 
 .banner__description {
@@ -75,6 +89,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     display: inline-block;
+    z-index: 9;
 }
 
 .banner__pagerDot.active {
