@@ -3,16 +3,27 @@
     color: white;
 }
 
+.carousel h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
 .carousel__container {
     display: flex;
     overflow-x: scroll;
     padding: 20px 0;
 }
 
+.carousel__item {
+    position: relative;
+    text-align: center;
+    margin-right: 15px; /* Espaço entre os itens */
+    cursor: pointer;
+}
+
 .carousel__image {
     max-height: 250px;
     object-fit: contain;
-    margin-right: 10px;
     transition: transform 0.2s;
     cursor: pointer;
 }
@@ -21,8 +32,59 @@
     transform: scale(1.1);
 }
 
-.carousel h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+.carousel__details {
+    margin-top: 10px;
 }
 
+.carousel__title {
+    display: block;
+    font-size: 16px;
+    color: #fff; /* Mudado para branco para melhor contraste */
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.carousel__title:hover {
+    text-decoration: underline;
+}
+
+.carousel__rating-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.carousel__progress-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: relative;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel__progress-circle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top-color: #ffd700; /* Cor da borda preenchida */
+    transform: rotate(calc(3.6deg * var(--percent)));
+    transition: transform 0.3s ease;
+    z-index: 0;
+}
+
+.carousel__rating {
+    font-size: 14px;
+    color: #ffd700; /* Cor da nota */
+    z-index: 1;
+    font-weight: bold;
+    text-align: center; /* Garante que o texto esteja centralizado dentro do círculo */
+    line-height: 50px; /* Alinha verticalmente o texto */
+}

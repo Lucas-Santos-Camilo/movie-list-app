@@ -51,8 +51,8 @@
     bottom: -0px;
     width: 25%;
     height: 100%; 
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 0 80% 80% 0;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(208,208,208,1) 20%, rgba(162,162,162,1) 50%, rgba(91,91,91,0) 100%);
     z-index: -1;
 }
 
@@ -70,6 +70,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+    z-index: 8;
 }
 
 .banner__pager {
@@ -79,6 +80,7 @@
     transform: translateX(-50%);
     display: flex;
     gap: 10px;
+    z-index: 9;
 }
 
 .banner__pagerDot {
