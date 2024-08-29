@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import Banner from './components/Banner/Banner';
 import MovieCarousel from './components/MovieCarousel/MovieCarousel';
 import MovieDetails from './components/MovieDetails';
-import Footer from './components/Footer/Footer'; // Importe o Footer
+import Footer from './components/Footer/Footer';
 
 const App = () => {
     return (

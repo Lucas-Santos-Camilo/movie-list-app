@@ -2,7 +2,7 @@
 import React from 'react';
 import './Navbar.css';
 import logo from './img/logo.jpg';
-import Search from '../Search';
+import Search from '../Search/Search';
 
 const Navbar = () => {
     return (
