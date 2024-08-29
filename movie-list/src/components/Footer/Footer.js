@@ -4,7 +4,7 @@ import './Footer.css'; // Adicione o CSS para o Footer
 const Footer = () => {
     return (
         <footer className="footer">
-            <p>&copy; {new Date().getFullYear()} Your Website Name. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Lucas Camilo Movie Aplication. Todos os direitos reservados.</p>
         </footer>
     );
 };

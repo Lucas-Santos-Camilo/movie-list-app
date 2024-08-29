@@ -9,13 +9,20 @@
     position: relative;
 }
 
-.cast-carousel__control {
-    background: #333;
+.cast-carousel__controls .cast-carousel__control{
+    background: none;
     border: none;
-    color: #fff;
-    padding: 10px;
+    color: #000;
+    font-size: 24px;
     cursor: pointer;
-    z-index: 1;
+    z-index: 2;
+    background-color: #ffffffc7;
+    top: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
 }
 
 .cast-carousel__control--left {
@@ -46,6 +53,9 @@
     width: 100%;
     border-radius: 8px;
     display: block;
+    -webkit-box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.43);
+    -moz-box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.43);
+    box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.43);
 }
 
 .cast-carousel__image.no-profile-image {
@@ -62,6 +72,7 @@
     margin-top: 5px;
     font-size: 14px;
     font-weight: bold;
+    color: #fff;
 }
 
 .cast-carousel__crew {

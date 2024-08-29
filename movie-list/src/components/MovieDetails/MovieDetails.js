@@ -5,6 +5,8 @@ import CastCarousel from '../CastCarousel/CastCarousel';
 import MovieCrew from '../MovieCrew/MovieCrew'; // Importa o componente MovieCrew
 import ColorThief from 'color-thief-browser'; // Biblioteca para extração de cor
 import Color from 'color'; // Biblioteca para manipulação de cores
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import './MovieDetails.css';
 
 const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
@@ -100,7 +102,7 @@ const MovieDetails = () => {
                     </div>
                     <div className="movie-details__info" style={{ color: textColor }}>
                         <h1 className="movie-details__title">
-                            {movie.title} ({new Date(movie.release_date).getFullYear()})
+                            {movie.title.length > 31 ? `${movie.title.slice(0, 31)}...` : movie.title} ({new Date(movie.release_date).getFullYear()})
                         </h1>
                         <div className="movie-more-details">
                             <p className="movie-details__release-date">{new Date(movie.release_date).toLocaleDateString()}</p>
@@ -108,18 +110,25 @@ const MovieDetails = () => {
                                 {movie.genres.map(genre => genre.name).join(', ')}
                             </p>
                             <p className="movie-details__duration">{formatRuntime(movie.runtime)}</p>
+                            <button 
+                                className={`movie-details__favorite ${isFavorite ? 'favorite' : 'not-favorite'}`} 
+                                onClick={handleFavoriteClick}
+                            >
+                                <FontAwesomeIcon icon={faHeart} />
+                            </button>
                         </div>
                         <div
                             className="movie-details__progress-circle"
-                            style={{ '--percent': Math.round(movie.vote_average * 10) / 100 }}
+                            style={{ 
+                                '--percent': Math.round(movie.vote_average * 10) / 100,
+                                background: `conic-gradient(${getRatingColor(Math.round(movie.vote_average * 10))} calc(${Math.round(movie.vote_average * 10)}%),
+                                transparent 0%)`
+                            }}
                         >
                             <span className="movie-details__rating">
                                 {Math.round(movie.vote_average * 10)}%
                             </span>
                         </div>
-                        <button className="movie-details__favorite" onClick={handleFavoriteClick}>
-                            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-                        </button>
                         <div className="movie-details__synopsis">
                             {movie.tagline && (
                                 <h3 className="tagline" dir="auto">{movie.tagline}</h3>
@@ -136,6 +145,14 @@ const MovieDetails = () => {
             <CastCarousel cast={cast} />
         </div>
     );
+};
+
+// Função para determinar a cor do rating
+const getRatingColor = (rating) => {
+    if (rating <= 25) return '#ff0000'; // Vermelho
+    if (rating <= 50) return '#ffd700'; // Amarelo
+    if (rating <= 75) return '#0000ff'; // Azul
+    return '#00ff00'; // Verde
 };
 
 export default MovieDetails;

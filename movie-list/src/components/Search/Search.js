@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
 
-const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99'; // Sua chave de API TMDB
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/'; // URL base para imagens
+const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99'; 
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/'; 
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -23,13 +23,13 @@ const Search = () => {
                 }
             });
             setMovies(response.data.results);
-            setShowResults(true); // Mostrar resultados após a busca
+            setShowResults(true); // Mostra resultados após a busca
         } catch (error) {
             console.error('Error fetching movies:', error);
         }
     }, [query]);
 
-    // Executar busca quando o comprimento da query for maior ou igual a 4
+    // Executa busca quando o comprimento da query for maior ou igual a 4
     useEffect(() => {
         if (query.length >= 4) {
             handleSearch();
@@ -39,7 +39,7 @@ const Search = () => {
         }
     }, [query, handleSearch]);
 
-    // Adicionar filme aos favoritos
+    // Adiciona filme aos favoritos
     const handleAddFavorite = async (movieId) => {
         try {
             await axios.post(`http://localhost:8000/api/favorites/${movieId}/add_favorite/`);
@@ -59,12 +59,12 @@ const Search = () => {
         }
     };
 
-    // Navegar para a página de detalhes do filme
+    // Navega para a página de detalhes do filme
     const viewDetails = (id) => {
         navigate(`/movie/${id}`);
-        setQuery(''); // Limpar a pesquisa ao visualizar detalhes do filme
-        setMovies([]); // Limpar os resultados da pesquisa
-        setShowResults(false); // Ocultar resultados
+        setQuery(''); // Limpa a pesquisa ao visualizar detalhes do filme
+        setMovies([]); // Limpa os resultados da pesquisa
+        setShowResults(false); // Oculta resultados
     };
 
     // Manipulador de tecla para pressionar "Enter"
@@ -74,7 +74,7 @@ const Search = () => {
         }
     };
 
-    // Fechar resultados ao clicar fora
+    // Fecha resultados ao clicar fora
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (resultsRef.current && !resultsRef.current.contains(event.target)) {
@@ -87,7 +87,7 @@ const Search = () => {
     }, []);
 
     return (
-        <div>
+        <div className='search-bar'>
             <input
                 type="text"
                 value={query}
