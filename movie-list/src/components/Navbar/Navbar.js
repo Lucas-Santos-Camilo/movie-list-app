@@ -7,7 +7,7 @@ import Search from '../Search/Search';
 const Navbar = () => {
     return (
         <nav className="navbar">
-            <a href='/'>
+            <a href=''>
                 <img className="navbar__logo" src={logo} alt="Lucas Camilo" />
             </a>
             <Search />

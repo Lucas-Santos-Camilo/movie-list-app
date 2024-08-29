@@ -45,7 +45,7 @@ const App = () => {
     return (
         <Router>
             <MainLayout>
-                <Routes>
+                <Routes> 
                     <Route path="/movie/:id" element={<MovieDetails />} />
                 </Routes>
             </MainLayout>
