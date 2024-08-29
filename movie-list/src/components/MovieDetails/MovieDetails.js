@@ -21,53 +21,46 @@ const MovieDetails = () => {
     useEffect(() => {
         const fetchMovieDetails = async () => {
             try {
-                // Requisição para obter os detalhes do filme
-                const movieResponse = await axios.get(`${BASE_URL}/movie/${id}`, {
+                let movieResponse = await axios.get(`${BASE_URL}/movie/${id}`, {
                     params: { 
                         api_key: API_KEY, 
                         language: 'pt-BR' 
                     }
                 });
 
-                // Requisição para obter o elenco
+                if (!movieResponse.data || !movieResponse.data.overview) {
+                    movieResponse = await axios.get(`${BASE_URL}/movie/${id}`, {
+                        params: { 
+                            api_key: API_KEY, 
+                            language: 'en-US' 
+                        }
+                    });
+                }
+
                 const castResponse = await axios.get(`${BASE_URL}/movie/${id}/credits`, { params: { api_key: API_KEY } });
+
+                console.log('Movie Response:', movieResponse.data);
+                console.log('Cast Response:', castResponse.data);
 
                 setMovie(movieResponse.data);
                 setCast(castResponse.data.cast);
 
-                // Obter a URL da imagem
-                const imageUrl = `https://image.tmdb.org/t/p/original${movieResponse.data.backdrop_path}`;
                 const image = new Image();
-                image.crossOrigin = 'Anonymous'; // Importante para evitar problemas de CORS
-                image.src = imageUrl;
-
+                image.crossOrigin = 'Anonymous';
+                image.src = `https://image.tmdb.org/t/p/original${movieResponse.data.backdrop_path}`;
                 image.onload = () => {
-                    try {
-                        const colorThief = new ColorThief();
-                        const dominantColor = colorThief.getColor(image);
-                        const rgbaColor = `rgba(${dominantColor.join(',')}, 0.5)`; // Adiciona opacidade
-                        setOverlayColor(rgbaColor);
+                    const colorThief = new ColorThief();
+                    const dominantColor = colorThief.getColor(image);
+                    const rgbaColor = `rgba(${dominantColor.join(',')}, 0.5)`; // Adiciona opacidade
+                    setOverlayColor(rgbaColor);
 
-                        // Calcula a cor do texto baseado na luminosidade
-                        const color = Color(`rgb(${dominantColor.join(',')})`);
-                        const luminance = color.luminosity(); // Luminosidade do fundo
-                        setTextColor(luminance > 0.5 ? '#000000' : '#ffffff'); // Preto para fundo claro, branco para fundo escuro
-                    } catch (error) {
-                        console.error('Erro ao extrair a cor dominante:', error);
-                        // Fallback para uma cor padrão
-                        setOverlayColor('rgba(0, 0, 0, 0.5)');
-                        setTextColor('#ffffff');
-                    }
-                };
-
-                image.onerror = () => {
-                    console.error('Erro ao carregar a imagem para extração de cor');
-                    // Fallback para uma cor padrão
-                    setOverlayColor('rgba(0, 0, 0, 0.5)');
-                    setTextColor('#ffffff');
+                    // Calcula a cor do texto baseado na luminosidade
+                    const color = Color(`rgb(${dominantColor.join(',')})`);
+                    const luminance = color.luminosity(); // Luminosidade do fundo
+                    setTextColor(luminance > 0.5 ? '#000000' : '#ffffff'); // Preto para fundo claro, branco para fundo escuro
                 };
             } catch (error) {
-                console.error('Erro ao buscar os detalhes do filme:', error);
+                console.error('Error fetching movie details:', error);
             }
         };
 
@@ -125,7 +118,7 @@ const MovieDetails = () => {
                             </span>
                         </div>
                         <button className="movie-details__favorite" onClick={handleFavoriteClick}>
-                            {isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+                            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                         </button>
                         <div className="movie-details__synopsis">
                             {movie.tagline && (

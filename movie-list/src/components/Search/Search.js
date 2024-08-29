@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
@@ -9,7 +9,9 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/'; // URL base para imag
 const Search = () => {
     const [query, setQuery] = useState('');
     const [movies, setMovies] = useState([]);
+    const [showResults, setShowResults] = useState(false); // Adiciona estado para controlar a visibilidade dos resultados
     const navigate = useNavigate();
+    const resultsRef = useRef(null); // Referência para a box de resultados
 
     // Buscar filmes usando a API TMDb
     const handleSearch = useCallback(async () => {
@@ -21,6 +23,7 @@ const Search = () => {
                 }
             });
             setMovies(response.data.results);
+            setShowResults(true); // Mostrar resultados após a busca
         } catch (error) {
             console.error('Error fetching movies:', error);
         }
@@ -32,15 +35,9 @@ const Search = () => {
             handleSearch();
         } else {
             setMovies([]); // Limpar os resultados se a query for menor que 4 caracteres
+            setShowResults(false); // Ocultar resultados
         }
     }, [query, handleSearch]);
-
-    // Navegar para a página de detalhes do filme
-    const viewDetails = (id) => {
-        navigate(`/movie/${id}`);
-        setQuery(''); // Limpar a pesquisa ao visualizar detalhes do filme
-        setMovies([]); // Limpar os resultados da pesquisa
-    };
 
     // Adicionar filme aos favoritos
     const handleAddFavorite = async (movieId) => {
@@ -62,12 +59,32 @@ const Search = () => {
         }
     };
 
+    // Navegar para a página de detalhes do filme
+    const viewDetails = (id) => {
+        navigate(`/movie/${id}`);
+        setQuery(''); // Limpar a pesquisa ao visualizar detalhes do filme
+        setMovies([]); // Limpar os resultados da pesquisa
+        setShowResults(false); // Ocultar resultados
+    };
+
     // Manipulador de tecla para pressionar "Enter"
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleSearch();
         }
     };
+
+    // Fechar resultados ao clicar fora
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (resultsRef.current && !resultsRef.current.contains(event.target)) {
+                setShowResults(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div>
@@ -79,7 +96,7 @@ const Search = () => {
                 placeholder="Buscar filme"
             />
             <button className="btn-buscar" onClick={handleSearch}>BUSCAR</button>
-            <ul className={movies.length === 0 ? 'hidden' : ''}>
+            <ul className={`movie-results ${showResults ? '' : 'hidden'}`} ref={resultsRef}>
                 {movies.map(movie => (
                     <li
                         key={movie.id}
