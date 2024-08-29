@@ -1,0 +1,82 @@
+.cast-carousel {
+    position: relative;
+    margin: 20px 0;
+}
+
+.cast-carousel__controls {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.cast-carousel__control {
+    background: #333;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.cast-carousel__control--left {
+    position: absolute;
+    left: 0;
+}
+
+.cast-carousel__control--right {
+    position: absolute;
+    right: 0;
+}
+
+.cast-carousel__container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 10px;
+}
+
+.cast-carousel__item {
+    min-width: 150px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.cast-carousel__image {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+}
+
+.cast-carousel__image.no-profile-image {
+    background-color: #e0e0e0;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 225px;
+    border-radius: 8px;
+}
+
+.cast-carousel__name {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cast-carousel__crew {
+    margin-top: 20px;
+}
+
+.cast-carousel__crew-item {
+    margin-bottom: 10px;
+}
+
+.cast-carousel__crew-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.cast-carousel__crew-item p {
+    margin: 0;
+    font-size: 1em;
+}

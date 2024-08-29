@@ -17,7 +17,7 @@ const Banner = () => {
                 const response = await axios.get(`${BASE_URL}${POPULAR_ENDPOINT}`, {
                     params: {
                         api_key: API_KEY,
-                        language: 'en-US',
+                        language: 'pt-BR',
                         page: 1
                     }
                 });

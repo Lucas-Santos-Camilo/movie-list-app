@@ -1,0 +1,31 @@
+.movie-crew {
+    margin-top: 20px;
+}
+
+.movie-crew__list {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.movie-crew__list {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    z-index: 9;
+    padding: 20px 0;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.movie-crew__item {
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-crew__item p{
+    margin: 0 !important;
+}

@@ -59,7 +59,7 @@ const MovieCarousel = ({ title, apiUrl }) => {
                                     <div className="carousel__release-date">
                                         {releaseDate}
                                     </div>
-                                    <div class="carousel__before-circle">
+                                    <div className="carousel__before-circle">
                                         <div
                                             className="carousel__progress-circle"
                                             style={{ '--percent': roundedVote / 100 }} // Define o valor percentual para o preenchimento
