@@ -5,20 +5,23 @@ import Banner from './components/Banner/Banner';
 import MovieCarousel from './components/MovieCarousel/MovieCarousel';
 import Footer from './components/Footer/Footer';
 import MovieDetails from './components/MovieDetails/MovieDetails';
+import FavoriteMovies from './components/FavoriteMovies/FavoriteMovies';
+import { AuthProvider } from './context/AuthContext';
 
 // Definindo o componente MainLayout
 const MainLayout = ({ children }) => {
     const location = useLocation();
     const isMovieDetailsPage = location.pathname.startsWith('/movie/');
+    const isFavoriteMoviesPage = location.pathname === '/your-list';
 
     return (
         <>
             <header>
                 <Navbar />
-                {!isMovieDetailsPage && <Banner />}
+                {!isMovieDetailsPage && !isFavoriteMoviesPage && <Banner />}
             </header>
             <main>
-                {!isMovieDetailsPage && (
+                {!isMovieDetailsPage && !isFavoriteMoviesPage && (
                     <>
                         <MovieCarousel 
                             title="Filmes Populares" 
@@ -43,14 +46,17 @@ const MainLayout = ({ children }) => {
 
 const App = () => {
     return (
+      <AuthProvider>
         <Router>
-            <MainLayout>
-                <Routes> 
-                    <Route path="/movie/:id" element={<MovieDetails />} />
-                </Routes>
-            </MainLayout>
+          <MainLayout>
+            <Routes> 
+              <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/your-list" element={<FavoriteMovies />} />
+            </Routes>
+          </MainLayout>
         </Router>
+      </AuthProvider>
     );
-};
+  };
 
 export default App;

@@ -1,57 +1,52 @@
-// src/components/MovieList/MovieList.js
-
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './MovieList.css'; // Importe o CSS se necessário
+import React, { useEffect, useState } from 'react';
+import FavoriteButton from './FavoriteButton';
 
 const MovieList = () => {
-    // Define os estados
-    const [movies, setMovies] = useState([]); // Para armazenar a lista de filmes
-    const [loading, setLoading] = useState(true); // Para controlar o estado de carregamento
-    const [error, setError] = useState(null); // Para armazenar erros
+  const [movies, setMovies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
-    // Função para buscar dados da API
+  useEffect(() => {
     const fetchMovies = async () => {
-        try {
-            const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
-                params: {
-                    api_key: 'sua_chave_tmdb' // Substitua com sua chave de API TMDb
-                }
-            });
-            setMovies(response.data.results); // Armazena os dados dos filmes
-            setLoading(false); // Atualiza o estado de carregamento
-        } catch (err) {
-            setError(err); // Armazena o erro se ocorrer
-            setLoading(false); // Atualiza o estado de carregamento
-        }
+      const response = await fetch('/api/movies/');
+      const data = await response.json();
+      setMovies(data);
     };
 
-    // Use useEffect para buscar os dados quando o componente for montado
-    useEffect(() => {
-        fetchMovies();
-    }, []); // O array vazio significa que o efeito será executado apenas na montagem do componente
+    const fetchFavorites = async () => {
+      try {
+        const response = await fetch('/api/favorite-movies/your-list/');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setFavorites(data.map(fav => fav.movie_id));
+      } catch (error) {
+        console.error('Failed to fetch favorites:', error);
+      }
+    };
 
-    // Exiba o conteúdo com base no estado
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    fetchMovies();
+    fetchFavorites();
+  }, []);
 
-    return (
-        <div className="movie-list">
-            <h2>Popular Movies</h2>
-            <div className="movie-list__container">
-                {movies.map(movie => (
-                    <div key={movie.id} className="movie-card">
-                        <img 
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-                            alt={movie.title} 
-                        />
-                        <h3>{movie.title}</h3>
-                        <p>{movie.overview}</p>
-                    </div>
-                ))}
-            </div>
+  const handleFavoriteToggle = () => {
+    fetchFavorites(); // Atualiza a lista de favoritos
+  };
+
+  return (
+    <div>
+      {movies.map(movie => (
+        <div key={movie.id}>
+          <h3>{movie.title}</h3>
+          <FavoriteButton
+            movieId={movie.id}
+            isFavorite={favorites.includes(movie.id)}
+            onFavoriteToggle={handleFavoriteToggle}
+          />
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default MovieList;

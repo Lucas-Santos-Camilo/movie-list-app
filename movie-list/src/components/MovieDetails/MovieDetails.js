@@ -5,9 +5,8 @@ import CastCarousel from '../CastCarousel/CastCarousel';
 import MovieCrew from '../MovieCrew/MovieCrew'; // Importa o componente MovieCrew
 import ColorThief from 'color-thief-browser'; // Biblioteca para extração de cor
 import Color from 'color'; // Biblioteca para manipulação de cores
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import './MovieDetails.css';
+import FavoriteButton from '../FavoriteButton'; 
 
 const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -69,10 +68,6 @@ const MovieDetails = () => {
         fetchMovieDetails();
     }, [id]);
 
-    const handleFavoriteClick = () => {
-        setIsFavorite(prev => !prev);
-    };
-
     // Função para converter minutos em horas e minutos
     const formatRuntime = (minutes) => {
         const hours = Math.floor(minutes / 60);
@@ -110,12 +105,11 @@ const MovieDetails = () => {
                                 {movie.genres.map(genre => genre.name).join(', ')}
                             </p>
                             <p className="movie-details__duration">{formatRuntime(movie.runtime)}</p>
-                            <button 
-                                className={`movie-details__favorite ${isFavorite ? 'favorite' : 'not-favorite'}`} 
-                                onClick={handleFavoriteClick}
-                            >
-                                <FontAwesomeIcon icon={faHeart} />
-                            </button>
+                            <FavoriteButton
+                                movieId={movie.id}
+                                isFavorite={isFavorite}
+                                onFavoriteToggle={() => setIsFavorite(prev => !prev)}
+                            />
                         </div>
                         <div
                             className="movie-details__progress-circle"
