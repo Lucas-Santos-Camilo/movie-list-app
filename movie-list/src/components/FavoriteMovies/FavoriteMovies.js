@@ -1,36 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; // Certifique-se de que o caminho está correto
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import './FavoriteMovies.css'; // Adicione um arquivo CSS para estilizar a lista se necessário
+import FavoriteButton from '../FavoriteButton/FavoriteButton'; // Importe o componente FavoriteButton
 
 const FavoriteMovies = () => {
-  const [favorites, setFavorites] = useState([]);
-  const { userToken } = useAuth(); // Obtendo o token do contexto
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   useEffect(() => {
-    fetch('/api/your-list/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${userToken}` // Usando o token fixo
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      setFavorites(data);
-    });
-  }, [userToken]);
+    const cookiesFavorites = Cookies.get('favoriteMovies');
+    if (cookiesFavorites) {
+      setFavoriteMovies(JSON.parse(cookiesFavorites));
+    }
+  }, []);
+
+  const handleFavoriteToggle = (movie) => {
+    const cookiesFavorites = Cookies.get('favoriteMovies');
+    let favoriteMovies = cookiesFavorites ? JSON.parse(cookiesFavorites) : [];
+
+    if (favoriteMovies.some(fav => fav.id === movie.id)) {
+      favoriteMovies = favoriteMovies.filter(fav => fav.id !== movie.id);
+    } else {
+      favoriteMovies.push(movie);
+    }
+
+    Cookies.set('favoriteMovies', JSON.stringify(favoriteMovies), { expires: 7 });
+    setFavoriteMovies(favoriteMovies);
+  };
 
   return (
-    <div>
-      <h2>Meus Filmes Favoritos</h2>
-      {favorites.length > 0 ? (
-        favorites.map(movie => (
-          <div key={movie.id}>
-            <h3>{movie.title}</h3>
-          </div>
-        ))
-      ) : (
-        <p>Você ainda não favoritou nenhum filme.</p>
-      )}
+    <div className="favorite-movies">
+      <h1>Favorite Movies</h1>
+      <ul className="favorite-movies-list">
+        {favoriteMovies.map(movie => (
+          <li key={movie.id} className="favorite-movie-item">
+            <img
+              className="favorite-movie-poster"
+              src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+              alt={movie.title}
+            />
+            <div className="favorite-movie-details">
+              <h2 className="favorite-movie-title">{movie.title}</h2>
+              <p className="favorite-movie-release-date">
+                {new Date(movie.release_date).toLocaleDateString()}
+              </p>
+              <p className="favorite-movie-rating">
+                Rating: {movie.vote_average}
+              </p>
+              <FavoriteButton
+                movie={movie}
+                onFavoriteToggle={() => handleFavoriteToggle(movie)}
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -1,28 +1,57 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// context/AuthContext.js
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import {jwtDecode} from 'jwt-decode'; // Importação correta
 
-// Contexto para autenticação
 const AuthContext = createContext();
 
-// Provedor de autenticação
 export const AuthProvider = ({ children }) => {
-    const [userToken, setUserToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userToken, setUserToken] = useState(null);
 
-    useEffect(() => {
-        const fetchToken = async () => {
-            const token = localStorage.getItem('userToken');
-            setUserToken(token);
-        };
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        const isTokenValid = decodedToken.exp > Date.now() / 1000;
+        setIsAuthenticated(isTokenValid);
+        setUserToken(token);
+      } catch (e) {
+        console.error("Token decoding error:", e); // Adiciona log para erro de decodificação
+        setIsAuthenticated(false);
+        setUserToken(null);
+      }
+    } else {
+      setIsAuthenticated(false);
+      setUserToken(null);
+    }
+  }, []);
 
-        fetchToken();
-    }, []);
+  const login = (token) => {
+    localStorage.setItem('access_token', token);
+    try {
+      const decodedToken = jwtDecode(token);
+      const isTokenValid = decodedToken.exp > Date.now() / 1000;
+      setIsAuthenticated(isTokenValid);
+      setUserToken(token);
+    } catch (e) {
+      console.error("Token decoding error on login:", e); // Adiciona log para erro de decodificação
+      setIsAuthenticated(false);
+      setUserToken(null);
+    }
+  };
 
-    return (
-        <AuthContext.Provider value={{ userToken }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const logout = () => {
+    localStorage.removeItem('access_token');
+    setIsAuthenticated(false);
+    setUserToken(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, userToken, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

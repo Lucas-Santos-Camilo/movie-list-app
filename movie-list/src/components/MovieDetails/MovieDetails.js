@@ -6,7 +6,7 @@ import MovieCrew from '../MovieCrew/MovieCrew'; // Importa o componente MovieCre
 import ColorThief from 'color-thief-browser'; // Biblioteca para extração de cor
 import Color from 'color'; // Biblioteca para manipulação de cores
 import './MovieDetails.css';
-import FavoriteButton from '../FavoriteButton'; 
+import FavoriteButton from '../FavoriteButton/FavoriteButton'; // Corrigido o caminho para FavoriteButton
 
 const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -15,7 +15,7 @@ const MovieDetails = () => {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
     const [cast, setCast] = useState([]);
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [setFavoriteMovies] = useState([]); // Usando um array para favoritos
     const [overlayColor, setOverlayColor] = useState('rgba(0, 0, 0, 0.9)');
     const [textColor, setTextColor] = useState('#ffffff');
 
@@ -75,7 +75,28 @@ const MovieDetails = () => {
         return `${hours}h ${mins}m`;
     };
 
-    if (!movie) return <div>Loading...</div>;
+    // Função para determinar a cor do rating
+    const getRatingColor = (rating) => {
+        if (rating <= 25) return '#ff0000'; // Vermelho
+        if (rating <= 50) return '#ffd700'; // Amarelo
+        if (rating <= 75) return '#0000ff'; // Azul
+        return '#00ff00'; // Verde
+    };
+
+    // Função para alternar filmes favoritos
+    const toggleFavorite = (movie) => {
+        setFavoriteMovies(prev => {
+            if (prev.some(fav => fav.id === movie.id)) {
+                console.log(`Removing movie ${movie.id} from favorites.`);
+                return prev.filter(id => id !== movie.id);
+            } else {
+                console.log(`Adding movie ${movie.id} to favorites.`);
+                return [...prev, movie];
+            }
+        });
+    };
+
+    if (!movie) return <div>CARREGANDO...</div>;
 
     return (
         <div className="movie-details">
@@ -106,17 +127,15 @@ const MovieDetails = () => {
                             </p>
                             <p className="movie-details__duration">{formatRuntime(movie.runtime)}</p>
                             <FavoriteButton
-                                movieId={movie.id}
-                                isFavorite={isFavorite}
-                                onFavoriteToggle={() => setIsFavorite(prev => !prev)}
+                                movie={movie} // Corrigido para passar o objeto movie
+                                onFavoriteToggle={() => toggleFavorite(movie)} // Corrigido para passar o objeto movie
                             />
                         </div>
                         <div
                             className="movie-details__progress-circle"
                             style={{ 
                                 '--percent': Math.round(movie.vote_average * 10) / 100,
-                                background: `conic-gradient(${getRatingColor(Math.round(movie.vote_average * 10))} calc(${Math.round(movie.vote_average * 10)}%),
-                                transparent 0%)`
+                                background: `conic-gradient(${getRatingColor(Math.round(movie.vote_average * 10))} calc(${Math.round(movie.vote_average * 10)}%), transparent 0%)`
                             }}
                         >
                             <span className="movie-details__rating">
@@ -139,14 +158,6 @@ const MovieDetails = () => {
             <CastCarousel cast={cast} />
         </div>
     );
-};
-
-// Função para determinar a cor do rating
-const getRatingColor = (rating) => {
-    if (rating <= 25) return '#ff0000'; // Vermelho
-    if (rating <= 50) return '#ffd700'; // Amarelo
-    if (rating <= 75) return '#0000ff'; // Azul
-    return '#00ff00'; // Verde
 };
 
 export default MovieDetails;

@@ -1,0 +1,38 @@
+.favorite-movies {
+    padding: 20px;
+    height: 100%;
+    min-height: 100vh;
+  }
+  
+  .favorite-movies-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .favorite-movie-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .favorite-movie-poster {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .favorite-movie-details {
+    flex: 1;
+  }
+  
+  .favorite-movie-title {
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  .favorite-movie-release-date {
+    color: #666;
+  }
