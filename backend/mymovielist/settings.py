@@ -79,4 +79,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 STATIC_URL = 'static/'
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
