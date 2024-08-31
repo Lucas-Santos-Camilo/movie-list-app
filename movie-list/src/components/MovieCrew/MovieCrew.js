@@ -3,7 +3,7 @@ import axios from 'axios';
 import './MovieCrew.css'; 
 
 
-const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const MovieCrew = ({ movieId }) => {

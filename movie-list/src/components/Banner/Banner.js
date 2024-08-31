@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Banner.css';
 
-const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 const POPULAR_ENDPOINT = '/movie/popular';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';

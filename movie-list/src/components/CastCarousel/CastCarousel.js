@@ -8,7 +8,7 @@ const CastCarousel = ({ cast }) => {
 
     const scroll = (direction) => {
         if (carouselRef.current) {
-            const scrollAmount = direction === 'left' ? -200 : 200; // Ajuste o valor conforme necessário
+            const scrollAmount = direction === 'left' ? -200 : 200;
             carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     };

@@ -13,8 +13,6 @@
     padding-bottom: 20px;
 }
 
-/* src/components/MovieDetails/MovieDetails.css */
-
 .movie-details__overlay {
     position: absolute;
     top: 0;
@@ -185,11 +183,11 @@
     width: 150px;
     height: 225px;
     object-fit: cover;
-    background-color: #f0f0f0; /* Fundo mais claro */
+    background-color: #f0f0f0; 
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333; /* Cor do ícone */
+    color: #333; 
     font-size: 50px;
     border-radius: 8px;
     position: relative;
@@ -197,7 +195,7 @@
 }
 
 .no-profile-image {
-    background-color: #e0e0e0; /* Fundo mais claro */
+    background-color: #e0e0e0;
 }
 
 .movie-details__cast-image i {

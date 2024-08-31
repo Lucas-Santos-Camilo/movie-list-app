@@ -3,17 +3,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
 
-const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99'; 
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/'; 
 
 const Search = () => {
     const [query, setQuery] = useState('');
     const [movies, setMovies] = useState([]);
-    const [showResults, setShowResults] = useState(false); // Adiciona estado para controlar a visibilidade dos resultados
+    const [showResults, setShowResults] = useState(false); 
     const navigate = useNavigate();
-    const resultsRef = useRef(null); // Referência para a box de resultados
+    const resultsRef = useRef(null); 
 
-    // Buscar filmes usando a API TMDb
     const handleSearch = useCallback(async () => {
         try {
             const response = await axios.get('https://api.themoviedb.org/3/search/movie', {
@@ -23,23 +22,21 @@ const Search = () => {
                 }
             });
             setMovies(response.data.results);
-            setShowResults(true); // Mostra resultados após a busca
+            setShowResults(true);
         } catch (error) {
             console.error('Error fetching movies:', error);
         }
     }, [query]);
 
-    // Executa busca quando o comprimento da query for maior ou igual a 4
     useEffect(() => {
         if (query.length >= 4) {
             handleSearch();
         } else {
-            setMovies([]); // Limpar os resultados se a query for menor que 4 caracteres
-            setShowResults(false); // Ocultar resultados
+            setMovies([]);
+            setShowResults(false); 
         }
     }, [query, handleSearch]);
 
-    // Adiciona filme aos favoritos
     const handleAddFavorite = async (movieId) => {
         try {
             await axios.post(`http://localhost:8000/api/favorites/${movieId}/add_favorite/`);
@@ -49,7 +46,6 @@ const Search = () => {
         }
     };
 
-    // Remover filme dos favoritos
     const handleRemoveFavorite = async (movieId) => {
         try {
             await axios.delete(`http://localhost:8000/api/favorites/${movieId}/remove_favorite/`);
@@ -59,22 +55,19 @@ const Search = () => {
         }
     };
 
-    // Navega para a página de detalhes do filme
     const viewDetails = (id) => {
         navigate(`/movie/${id}`);
-        setQuery(''); // Limpa a pesquisa ao visualizar detalhes do filme
-        setMovies([]); // Limpa os resultados da pesquisa
-        setShowResults(false); // Oculta resultados
+        setQuery('');
+        setMovies([]); 
+        setShowResults(false);
     };
 
-    // Manipulador de tecla para pressionar "Enter"
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleSearch();
         }
     };
 
-    // Fecha resultados ao clicar fora
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (resultsRef.current && !resultsRef.current.contains(event.target)) {
@@ -92,7 +85,7 @@ const Search = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleKeyDown} // Adiciona o manipulador de eventos de teclado
+                onKeyDown={handleKeyDown} 
                 placeholder="Buscar filme"
             />
             <button className="btn-buscar" onClick={handleSearch}>BUSCAR</button>

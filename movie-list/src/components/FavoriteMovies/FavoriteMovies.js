@@ -65,7 +65,7 @@ const FavoriteMovies = () => {
     <div className="favorite-movies">
       <h1 className="favorite-movies-supertitle">Filmes Favoritos</h1>
       <button className="share-button" onClick={copyToClipboard}>
-        <FontAwesomeIcon icon={faShare} /> Compartilhar Lista de Favoritos
+        <FontAwesomeIcon icon={faShare} /> Compartilhar Favoritos
       </button>
       <ul className="favorite-movies-list">
         {favoriteMovies.length > 0 ? (

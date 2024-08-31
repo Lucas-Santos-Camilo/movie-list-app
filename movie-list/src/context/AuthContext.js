@@ -1,6 +1,5 @@
-// context/AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import {jwtDecode} from 'jwt-decode'; // Importação correta
+import {jwtDecode} from 'jwt-decode'; 
 
 const AuthContext = createContext();
 
@@ -17,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(isTokenValid);
         setUserToken(token);
       } catch (e) {
-        console.error("Token decoding error:", e); // Adiciona log para erro de decodificação
+        console.error("Token decoding error:", e); 
         setIsAuthenticated(false);
         setUserToken(null);
       }
@@ -35,7 +34,7 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(isTokenValid);
       setUserToken(token);
     } catch (e) {
-      console.error("Token decoding error on login:", e); // Adiciona log para erro de decodificação
+      console.error("Token decoding error on login:", e); 
       setIsAuthenticated(false);
       setUserToken(null);
     }

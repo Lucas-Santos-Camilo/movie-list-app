@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from 'react';
 import './Navbar.css';
 import logo from './img/logo.jpg';
@@ -12,8 +11,6 @@ const Navbar = () => {
             </a>
             <Search />
             <div className="navbar__links">
-                {/* <a href="/">INICIO</a>
-                <a href="/browse">BUSCA</a> */}
                 <a href="/your-list">SUA LISTA</a>
             </div>
         </nav>
