@@ -145,7 +145,7 @@ python manage.py migrate
 
 #### 2.6. Criar um Superusuário
 
-Crie um superusuário para acessar o Django Admin:
+Crie um superusuário para acessar o Django Admin, esse mesmo usuário será exigido quando for acessar a aplicação na tela de "Login":
 
 ```bash
 python manage.py createsuperuser
