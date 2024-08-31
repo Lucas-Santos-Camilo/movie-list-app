@@ -1,4 +1,4 @@
-import requests # type: ignore
+import requests
 
 TMDB_API_KEY = 'process.env.REACT_APP_TMDB_API_KEY'
 TMDB_BASE_URL = 'https://api.themoviedb.org/3'

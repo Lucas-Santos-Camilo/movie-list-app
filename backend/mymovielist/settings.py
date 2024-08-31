@@ -1,15 +1,13 @@
 import os
+from decouple import config
 from pathlib import Path
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'uma-chave-secreta-de-fallback')
-DEBUG = True
-ALLOWED_HOSTS = []
-LOGIN_REDIRECT_URL = 'your-list'
-LOGOUT_REDIRECT_URL = 'home'
-TMDB_API_KEY = 'process.env.REACT_APP_TMDB_API_KEY'
+SECRET_KEY = config('SECRET_KEY', default='uma-chave-secreta-de-fallback')
+DEBUG = config('DEBUG', default=True, cast=bool)
+TMDB_API_KEY = config('TMDB_API_KEY')
 
 INSTALLED_APPS = [
     'django.contrib.admin',

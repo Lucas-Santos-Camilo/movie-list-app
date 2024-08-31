@@ -1,7 +1,6 @@
-Aqui está o README no formato solicitado:
+Claro! Vou adicionar um passo a passo no README para ajudar a gerar a `SECRET_KEY` para o Django. Aqui está o README atualizado com as instruções sobre como obter a `SECRET_KEY`:
 
----
-
+```markdown
 # Movie List App
 
 ## Descrição
@@ -95,17 +94,46 @@ pip install -r requirements.txt
 
 #### 2.4. Configurar as Variáveis de Ambiente
 
-Crie um arquivo `.env` na raiz do diretório `backend/mymovielist/` com as seguintes variáveis de ambiente:
+Crie um arquivo `.env` na raiz do diretório `backend/` com as seguintes variáveis de ambiente:
+
+**`.env` no diretório `backend/`:**
 
 ```plaintext
 SECRET_KEY=your_django_secret_key
 DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_URL=sqlite:///db.sqlite3
 TMDB_API_KEY=your_tmdb_api_key
 ```
 
-Substitua `your_django_secret_key` e `your_tmdb_api_key` pelos valores corretos.
+#### 2.4.1. Gerar uma `SECRET_KEY`
+
+Para gerar uma chave secreta para o Django, siga estes passos:
+
+1. **Abrir o Python no Terminal**
+
+   Abra um terminal (cmd, PowerShell, ou terminal integrado no VSCode). Digite `python` para iniciar o interpretador Python.
+
+   ```sh
+   python
+   ```
+
+2. **Gerar a Chave Secreta**
+
+   No interpretador Python, digite o seguinte código:
+
+   ```python
+   import secrets
+   print(secrets.token_urlsafe(50))
+   ```
+
+   Pressione Enter. Isso imprimirá uma nova chave secreta. Copie essa string.
+
+3. **Adicionar a Chave ao Arquivo `.env`**
+
+   Substitua `your_django_secret_key` no arquivo `.env` com a chave gerada. Por exemplo:
+
+   ```plaintext
+   SECRET_KEY=chave_secreta_gerada
+   ```
 
 #### 2.5. Migrar o Banco de Dados
 
@@ -141,7 +169,19 @@ Abra um novo terminal, navegue para o diretório `movie-list`:
 cd movie-list
 ```
 
-#### 3.2. Instalar as Dependências
+#### 3.2. Criar o Arquivo `.env`
+
+Crie um arquivo `.env` na raiz do diretório `movie-list/` com a seguinte variável de ambiente:
+
+**`.env` no diretório `movie-list/`:**
+
+```plaintext
+REACT_APP_TMDB_API_KEY=your_tmdb_api_key
+```
+
+Substitua `your_tmdb_api_key` pelo valor correto.
+
+#### 3.3. Instalar as Dependências
 
 Instale as dependências listadas no `package.json`:
 
@@ -149,7 +189,7 @@ Instale as dependências listadas no `package.json`:
 npm install
 ```
 
-#### 3.3. Iniciar o Servidor de Desenvolvimento
+#### 3.4. Iniciar o Servidor de Desenvolvimento
 
 Inicie o servidor de desenvolvimento do React:
 
@@ -191,3 +231,4 @@ Se você quiser contribuir para este projeto, siga as etapas abaixo:
 3. Faça o commit das suas alterações (`git commit -m 'Adiciona nova feature'`).
 4. Faça o push para a branch (`git push origin feature/sua-feature`).
 5. Abra um Pull Request.
+```
