@@ -13,7 +13,7 @@ Movie List App é uma aplicação web que permite aos usuários pesquisar, salva
 ```plaintext
 movie-list-app/
 │
-├── frontend/
+├── movie-list/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
