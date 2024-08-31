@@ -135,10 +135,10 @@ python manage.py runserver
 
 #### 3.1. Navegar para o Diretório Frontend
 
-Abra um novo terminal, navegue para o diretório `frontend`:
+Abra um novo terminal, navegue para o diretório `movie-list`:
 
 ```bash
-cd frontend
+cd movie-list
 ```
 
 #### 3.2. Instalar as Dependências
