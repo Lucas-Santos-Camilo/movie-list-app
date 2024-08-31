@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './FavoriteMovies.css';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShare } from '@fortawesome/free-solid-svg-icons';
 
 const FavoriteMovies = () => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
@@ -65,7 +67,7 @@ const FavoriteMovies = () => {
     <div className="favorite-movies">
       <h1 className="favorite-movies-supertitle">Filmes Favoritos</h1>
       <button className="share-button" onClick={copyToClipboard}>
-        Compartilhar Lista de Favoritos
+        <FontAwesomeIcon icon={faShare} /> Compartilhar Lista de Favoritos
       </button>
       <ul className="favorite-movies-list">
         {favoriteMovies.length > 0 ? (
