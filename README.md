@@ -1,3 +1,6 @@
+Aqui está o README no formato solicitado:
+
+---
 
 # Movie List App
 
@@ -188,7 +191,3 @@ Se você quiser contribuir para este projeto, siga as etapas abaixo:
 3. Faça o commit das suas alterações (`git commit -m 'Adiciona nova feature'`).
 4. Faça o push para a branch (`git push origin feature/sua-feature`).
 5. Abra um Pull Request.
-
-## Licença
-
-Este projeto é licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
