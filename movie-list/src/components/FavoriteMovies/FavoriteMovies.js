@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './FavoriteMovies.css';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
 
 const FavoriteMovies = () => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const location = useLocation();
 
   // Função para truncar o título do filme
   const truncateTitle = (title) => {
-    const truncated = title.length > 31 ? `${title.slice(0, 28)}...` : title;
-    console.log('Truncated Title:', truncated); // Debugging
-    return truncated;
+    return title.length > 31 ? `${title.slice(0, 28)}...` : title;
   };
 
   // Função para determinar a cor com base na votação
@@ -20,28 +20,53 @@ const FavoriteMovies = () => {
     return '#00ff00'; // Verde
   };
 
+  // Função para copiar o link para a área de transferência
+  const copyToClipboard = () => {
+    const baseUrl = window.location.origin;
+    const link = `${baseUrl}/your-list?favorites=${encodeURIComponent(JSON.stringify(favoriteMovies))}`;
+    navigator.clipboard.writeText(link)
+      .then(() => alert('Link copiado para a área de transferência!'))
+      .catch((error) => console.error('Erro ao copiar o link:', error));
+  };
+
   useEffect(() => {
-    // Função para carregar filmes favoritos do localStorage
+    // Função para carregar filmes favoritos
     const loadFavoriteMovies = () => {
-      const localFavorites = localStorage.getItem('favoriteMovies');
-      if (localFavorites) {
+      const params = new URLSearchParams(location.search);
+      const favoritesParam = params.get('favorites');
+
+      if (favoritesParam) {
         try {
-          const parsedMovies = JSON.parse(localFavorites);
-          console.log('Filmes carregados do localStorage:', parsedMovies);
+          const parsedMovies = JSON.parse(decodeURIComponent(favoritesParam));
           setFavoriteMovies(parsedMovies);
         } catch (error) {
-          console.error('Erro ao analisar favoritos do localStorage:', error);
+          console.error('Erro ao analisar favoritos da URL:', error);
           setFavoriteMovies([]);
+        }
+      } else {
+        // Caso não haja parâmetro, carrega do localStorage
+        const localFavorites = localStorage.getItem('favoriteMovies');
+        if (localFavorites) {
+          try {
+            const parsedMovies = JSON.parse(localFavorites);
+            setFavoriteMovies(parsedMovies);
+          } catch (error) {
+            console.error('Erro ao analisar favoritos do localStorage:', error);
+            setFavoriteMovies([]);
+          }
         }
       }
     };
 
     loadFavoriteMovies();
-  }, []);
+  }, [location.search]); // Recarregar se a URL mudar
 
   return (
     <div className="favorite-movies">
       <h1 className="favorite-movies-supertitle">Filmes Favoritos</h1>
+      <button className="share-button" onClick={copyToClipboard}>
+        Compartilhar Lista de Favoritos
+      </button>
       <ul className="favorite-movies-list">
         {favoriteMovies.length > 0 ? (
           favoriteMovies.map((movie) => {
