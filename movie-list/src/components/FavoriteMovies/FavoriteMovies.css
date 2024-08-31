@@ -17,6 +17,10 @@
   margin: 0;
 }
 
+.favorite-movies-list p {
+  color: #fff;
+}
+
 .favorite-movie-item {
   display: flex;
   align-items: center;
