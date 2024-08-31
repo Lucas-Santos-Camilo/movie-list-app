@@ -1,5 +1,3 @@
-# movies/views.py
-
 import requests
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -48,7 +46,7 @@ class FavoriteMovieViewSet(viewsets.ModelViewSet):
         user = request.user
         favorite_movies = FavoriteMovie.objects.filter(user=user)
         
-        tmdb_api_key = settings.TMDB_API_KEY  # Certifique-se de definir esta chave em settings.py
+        tmdb_api_key = settings.TMDB_API_KEY 
         tmdb_url = "https://api.themoviedb.org/3/movie/"
         
         session = requests.Session()
@@ -56,10 +54,9 @@ class FavoriteMovieViewSet(viewsets.ModelViewSet):
         for fav in favorite_movies:
             try:
                 response = session.get(f"{tmdb_url}{fav.movie_id}", params={'api_key': tmdb_api_key})
-                response.raise_for_status()  # Levanta um erro para códigos de status HTTP 4xx/5xx
+                response.raise_for_status()  
                 movie_data = response.json()
                 
-                # Adiciona os dados necessários à lista
                 movies_data.append({
                     'id': movie_data.get('id'),
                     'title': movie_data.get('title'),

@@ -9,7 +9,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = 'your-list'
 LOGOUT_REDIRECT_URL = 'home'
-TMDB_API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99'
+TMDB_API_KEY = 'process.env.REACT_APP_TMDB_API_KEY'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
