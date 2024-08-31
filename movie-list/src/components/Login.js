@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import { useAuth } from '../context/AuthContext'; // Importa o contexto de autenticação
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import './Login.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // Inicializa useNavigate
-    const { login } = useAuth(); // Obtém a função login do contexto
+    const navigate = useNavigate();
+    const { login } = useAuth(); 
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -18,37 +19,33 @@ const Login = () => {
             });
             const { access, refresh } = response.data;
 
-            // Armazena os tokens no localStorage
             localStorage.setItem('access_token', access);
             localStorage.setItem('refresh_token', refresh);
 
-            // Atualiza o estado de autenticação no contexto
-            login(access); // Atualiza o estado com o token
+            login(access);
 
-            // Redireciona para a página de favoritos após login bem-sucedido
-            navigate('/your-list'); // Substitua '/your-list' pela sua rota desejada
+            navigate('/your-list'); 
         } catch (error) {
             console.error('Login falhou:', error);
         }
     };
 
     return (
-        <form onSubmit={handleLogin}>
+        <form className='login-form' onSubmit={handleLogin}>
+            <h1 className='login-title'>Login</h1>
             <input
                 type="text"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                required
-            />
+                required />
             <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-            <button type="submit">Login</button>
+                required />
+            <button className='btn-Login' type="submit">Login</button>
         </form>
     );
 };

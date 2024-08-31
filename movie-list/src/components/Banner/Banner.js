@@ -4,7 +4,7 @@ import './Banner.css';
 
 const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const POPULAR_ENDPOINT = '/movie/popular'; // Endpoint para filmes populares
+const POPULAR_ENDPOINT = '/movie/popular';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
 
 const Banner = () => {
@@ -21,7 +21,7 @@ const Banner = () => {
                         page: 1
                     }
                 });
-                setMovies(response.data.results.slice(0, 3)); // Pega os top 3 filmes populares
+                setMovies(response.data.results.slice(0, 3));
             } catch (error) {
                 console.error('Error fetching movies:', error);
             }

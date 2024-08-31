@@ -10,7 +10,6 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const FavoriteButton = ({ movie }) => {
     const [isFavorite, setIsFavorite] = useState(false);
 
-    // Função para verificar se o filme é favorito
     const checkIfMovieIsFavorite = useCallback(() => {
         const localFavorites = localStorage.getItem('favoriteMovies');
         if (localFavorites) {
@@ -24,13 +23,12 @@ const FavoriteButton = ({ movie }) => {
         return false;
     }, [movie.id]);
 
-    // Função para buscar detalhes do filme
     const fetchMovieDetails = async (movieId) => {
         try {
             const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
                 params: {
                     api_key: API_KEY,
-                    language: 'pt-BR' // ou 'en-US' conforme necessário
+                    language: 'pt-BR' 
                 }
             });
             return response.data;
@@ -40,22 +38,17 @@ const FavoriteButton = ({ movie }) => {
         }
     };
 
-    // Atualiza o estado inicial de favorito
     useEffect(() => {
         setIsFavorite(checkIfMovieIsFavorite());
     }, [checkIfMovieIsFavorite]);
-
-    // Lida com a mudança de estado de favorito
     const handleToggleFavorite = async () => {
         let favoriteMovies = localStorage.getItem('favoriteMovies');
         favoriteMovies = favoriteMovies ? JSON.parse(favoriteMovies) : [];
 
         if (isFavorite) {
-            // Remove o filme dos favoritos
             favoriteMovies = favoriteMovies.filter(fav => fav.id !== movie.id);
             console.log(`Filme removido dos favoritos: ${movie.title}`);
         } else {
-            // Busca detalhes do filme e adiciona aos favoritos
             const movieDetails = await fetchMovieDetails(movie.id);
             if (movieDetails) {
                 favoriteMovies.push(movieDetails);

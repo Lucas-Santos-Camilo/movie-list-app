@@ -30,7 +30,7 @@ const MovieList = () => {
   }, []);
 
   const handleFavoriteToggle = () => {
-    fetchFavorites(); // Atualiza a lista de favoritos
+    fetchFavorites(); 
   };
 
   return (

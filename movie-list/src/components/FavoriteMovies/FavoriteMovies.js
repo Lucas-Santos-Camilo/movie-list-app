@@ -9,20 +9,18 @@ const FavoriteMovies = () => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const location = useLocation();
 
-  // Função para truncar o título do filme
   const truncateTitle = (title) => {
     return title.length > 31 ? `${title.slice(0, 28)}...` : title;
   };
 
-  // Função para determinar a cor com base na votação
   const getColorForVote = (percentage) => {
-    if (percentage <= 25) return '#ff0000'; // Vermelho
-    if (percentage <= 50) return '#ffd700'; // Amarelo
-    if (percentage <= 75) return '#0000ff'; // Azul
-    return '#00ff00'; // Verde
+    if (percentage <= 25) return '#ff0000'; 
+    if (percentage <= 50) return '#ffd700'; 
+    if (percentage <= 75) return '#0000ff'; 
+    return '#00ff00'; 
   };
 
-  // Função para copiar o link para a área de transferência
+  
   const copyToClipboard = () => {
     const baseUrl = window.location.origin;
     const link = `${baseUrl}/your-list?favorites=${encodeURIComponent(JSON.stringify(favoriteMovies))}`;
@@ -32,7 +30,7 @@ const FavoriteMovies = () => {
   };
 
   useEffect(() => {
-    // Função para carregar filmes favoritos
+    
     const loadFavoriteMovies = () => {
       const params = new URLSearchParams(location.search);
       const favoritesParam = params.get('favorites');
@@ -46,7 +44,7 @@ const FavoriteMovies = () => {
           setFavoriteMovies([]);
         }
       } else {
-        // Caso não haja parâmetro, carrega do localStorage
+        
         const localFavorites = localStorage.getItem('favoriteMovies');
         if (localFavorites) {
           try {
@@ -61,7 +59,7 @@ const FavoriteMovies = () => {
     };
 
     loadFavoriteMovies();
-  }, [location.search]); // Recarregar se a URL mudar
+  }, [location.search]); 
 
   return (
     <div className="favorite-movies">
@@ -72,9 +70,9 @@ const FavoriteMovies = () => {
       <ul className="favorite-movies-list">
         {favoriteMovies.length > 0 ? (
           favoriteMovies.map((movie) => {
-            const percentageVote = movie.vote_average * 10; // Converte de 0-10 para 0-100
+            const percentageVote = movie.vote_average * 10;
             const voteColor = getColorForVote(percentageVote);
-            const roundedVote = Math.round(percentageVote); // Arredonda para o formato percentual
+            const roundedVote = Math.round(percentageVote);
             return (
               <li key={movie.id} className="favorite-movie-item">
                 <img

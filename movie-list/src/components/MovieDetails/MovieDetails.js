@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import CastCarousel from '../CastCarousel/CastCarousel';
-import MovieCrew from '../MovieCrew/MovieCrew'; // Importa o componente MovieCrew
-import ColorThief from 'color-thief-browser'; // Biblioteca para extração de cor
-import Color from 'color'; // Biblioteca para manipulação de cores
+import MovieCrew from '../MovieCrew/MovieCrew'; 
+import ColorThief from 'color-thief-browser'; 
+import Color from 'color'; 
 import './MovieDetails.css';
-import FavoriteButton from '../FavoriteButton/FavoriteButton'; // Corrigido o caminho para FavoriteButton
-import Cookies from 'js-cookie'; // Importa Cookies
+import FavoriteButton from '../FavoriteButton/FavoriteButton'; 
+import Cookies from 'js-cookie'; 
 
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -52,13 +52,12 @@ const MovieDetails = () => {
                 image.onload = () => {
                     const colorThief = new ColorThief();
                     const dominantColor = colorThief.getColor(image);
-                    const rgbaColor = `rgba(${dominantColor.join(',')}, 0.5)`; // Adiciona opacidade
+                    const rgbaColor = `rgba(${dominantColor.join(',')}, 0.5)`; 
                     setOverlayColor(rgbaColor);
 
-                    // Calcula a cor do texto baseado na luminosidade
                     const color = Color(`rgb(${dominantColor.join(',')})`);
-                    const luminance = color.luminosity(); // Luminosidade do fundo
-                    setTextColor(luminance > 0.5 ? '#000000' : '#ffffff'); // Preto para fundo claro, branco para fundo escuro
+                    const luminance = color.luminosity(); 
+                    setTextColor(luminance > 0.5 ? '#000000' : '#ffffff'); 
                 };
             } catch (error) {
                 console.error('Error fetching movie details:', error);
@@ -75,10 +74,10 @@ const MovieDetails = () => {
     };
 
     const getRatingColor = (rating) => {
-        if (rating <= 25) return '#ff0000'; // Vermelho
-        if (rating <= 50) return '#ffd700'; // Amarelo
-        if (rating <= 75) return '#0000ff'; // Azul
-        return '#00ff00'; // Verde
+        if (rating <= 25) return '#ff0000'; 
+        if (rating <= 50) return '#ffd700'; 
+        if (rating <= 75) return '#0000ff';
+        return '#00ff00'; 
     };
 
     const toggleFavorite = (movie) => {
