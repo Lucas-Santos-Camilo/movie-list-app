@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Banner from './components/Banner/Banner';
 import MovieCarousel from './components/MovieCarousel/MovieCarousel';
 import Footer from './components/Footer/Footer';
 import MovieDetails from './components/MovieDetails/MovieDetails';
 import FavoriteMovies from './components/FavoriteMovies/FavoriteMovies';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import Login from './components/Login';
+import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/PrivateRoute'; // Atualize o caminho conforme necessário
 
 const MainLayout = ({ children }) => {
@@ -45,11 +44,9 @@ const MainLayout = ({ children }) => {
 };
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useAuth();
 
   return (
     <Routes>
-      <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/your-list" />} />
       <Route path="/movie/:id" element={<ProtectedRoute element={<MovieDetails />} />} />
       <Route path="/your-list" element={<ProtectedRoute element={<FavoriteMovies />} />} />
     </Routes>
