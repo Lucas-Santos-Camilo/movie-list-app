@@ -7,15 +7,15 @@ import ColorThief from 'color-thief-browser'; // Biblioteca para extração de c
 import Color from 'color'; // Biblioteca para manipulação de cores
 import './MovieDetails.css';
 import FavoriteButton from '../FavoriteButton/FavoriteButton'; // Corrigido o caminho para FavoriteButton
+import Cookies from 'js-cookie'; // Importa Cookies
 
-const API_KEY = 'c1270f490dff37ccb01ff7fbe275ec99';
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const MovieDetails = () => {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
     const [cast, setCast] = useState([]);
-    const [setFavoriteMovies] = useState([]); // Usando um array para favoritos
     const [overlayColor, setOverlayColor] = useState('rgba(0, 0, 0, 0.9)');
     const [textColor, setTextColor] = useState('#ffffff');
 
@@ -68,14 +68,12 @@ const MovieDetails = () => {
         fetchMovieDetails();
     }, [id]);
 
-    // Função para converter minutos em horas e minutos
     const formatRuntime = (minutes) => {
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
         return `${hours}h ${mins}m`;
     };
 
-    // Função para determinar a cor do rating
     const getRatingColor = (rating) => {
         if (rating <= 25) return '#ff0000'; // Vermelho
         if (rating <= 50) return '#ffd700'; // Amarelo
@@ -83,17 +81,17 @@ const MovieDetails = () => {
         return '#00ff00'; // Verde
     };
 
-    // Função para alternar filmes favoritos
     const toggleFavorite = (movie) => {
-        setFavoriteMovies(prev => {
-            if (prev.some(fav => fav.id === movie.id)) {
-                console.log(`Removing movie ${movie.id} from favorites.`);
-                return prev.filter(id => id !== movie.id);
-            } else {
-                console.log(`Adding movie ${movie.id} to favorites.`);
-                return [...prev, movie];
-            }
-        });
+        const cookiesFavorites = Cookies.get('favoriteMovies');
+        let favoriteMovies = cookiesFavorites ? JSON.parse(cookiesFavorites) : [];
+
+        if (favoriteMovies.some(fav => fav.id === movie.id)) {
+            favoriteMovies = favoriteMovies.filter(fav => fav.id !== movie.id);
+        } else {
+            favoriteMovies.push(movie);
+        }
+
+        Cookies.set('favoriteMovies', JSON.stringify(favoriteMovies), { expires: 7 });
     };
 
     if (!movie) return <div>CARREGANDO...</div>;
@@ -127,8 +125,8 @@ const MovieDetails = () => {
                             </p>
                             <p className="movie-details__duration">{formatRuntime(movie.runtime)}</p>
                             <FavoriteButton
-                                movie={movie} // Corrigido para passar o objeto movie
-                                onFavoriteToggle={() => toggleFavorite(movie)} // Corrigido para passar o objeto movie
+                                movie={movie}
+                                onFavoriteToggle={() => toggleFavorite(movie)}
                             />
                         </div>
                         <div

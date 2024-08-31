@@ -25,15 +25,15 @@ const MainLayout = ({ children }) => {
           <>
             <MovieCarousel
               title="Filmes Populares"
-              apiUrl="https://api.themoviedb.org/3/movie/popular?api_key=c1270f490dff37ccb01ff7fbe275ec99&language=pt-BR"
+              apiUrl={`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=pt-BR`}
             />
             <MovieCarousel
               title="Tendências"
-              apiUrl="https://api.themoviedb.org/3/trending/movie/day?api_key=c1270f490dff37ccb01ff7fbe275ec99&language=pt-BR"
+              apiUrl={`https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=pt-BR`}
             />
             <MovieCarousel
               title="Mais votados"
-              apiUrl="https://api.themoviedb.org/3/movie/top_rated?api_key=c1270f490dff37ccb01ff7fbe275ec99&language=pt-BR"
+              apiUrl={`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=pt-BR`}
             />
           </>
         )}

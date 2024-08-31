@@ -15,7 +15,6 @@ const MovieCarousel = ({ title, apiUrl }) => {
         async function fetchMovies() {
             try {
                 const response = await axios.get(apiUrl);
-                console.log('API Response:', response.data); // Debugging
                 setMovies(response.data.results);
             } catch (error) {
                 console.error("Failed to fetch movies:", error);
@@ -34,13 +33,14 @@ const MovieCarousel = ({ title, apiUrl }) => {
     const handleFavoriteToggle = (movie) => {
         const cookiesFavorites = Cookies.get('favoriteMovies');
         let favoriteMovies = cookiesFavorites ? JSON.parse(cookiesFavorites) : [];
-        let updatedFavorites;
+
         if (favoriteMovies.some(fav => fav.id === movie.id)) {
-            updatedFavorites = favoriteMovies.filter(fav => fav.id !== movie.id);
+            favoriteMovies = favoriteMovies.filter(fav => fav.id !== movie.id);
         } else {
-            updatedFavorites = [...favoriteMovies, movie];
+            favoriteMovies.push(movie);
         }
-        Cookies.set('favoriteMovies', JSON.stringify(updatedFavorites));
+
+        Cookies.set('favoriteMovies', JSON.stringify(favoriteMovies), { expires: 7 });
     };
 
     const getColorForVote = (vote) => {
@@ -63,7 +63,6 @@ const MovieCarousel = ({ title, apiUrl }) => {
                 </button>
                 <div className="carousel__container" ref={carouselRef}>
                     {movies.map(movie => {
-                        console.log('Movie Data:', movie); // Debugging
                         const roundedVote = Math.round(movie.vote_average * 10);
                         const releaseDate = new Date(movie.release_date).toLocaleDateString();
                         const voteColor = getColorForVote(roundedVote);
@@ -94,7 +93,7 @@ const MovieCarousel = ({ title, apiUrl }) => {
                                     </div>
                                     <FavoriteButton 
                                         movie={movie}
-                                        onFavoriteToggle={() => handleFavoriteToggle(movie)}
+                                        onFavoriteToggle={handleFavoriteToggle}
                                     />
                                 </div>
                             </div>

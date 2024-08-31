@@ -1,47 +1,78 @@
-import React from 'react';
-import Cookies from 'js-cookie';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import './FavoriteButton.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHeartBroken } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-const FavoriteButton = ({ movie, onFavoriteToggle }) => {
-    // Verifica se movie e movie.id estão definidos
-    if (!movie || !movie.id) {
-        console.error('Invalid movie object or movie id is missing');
-        return null;
-    }
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+const BASE_URL = 'https://api.themoviedb.org/3';
+
+const FavoriteButton = ({ movie }) => {
+    const [isFavorite, setIsFavorite] = useState(false);
 
     // Função para verificar se o filme é favorito
-    const isMovieFavorite = () => {
-        const cookiesFavorites = Cookies.get('favoriteMovies');
-        if (cookiesFavorites) {
-            const favoriteMovies = JSON.parse(cookiesFavorites);
-            return favoriteMovies.some(fav => fav.id === movie.id);
+    const checkIfMovieIsFavorite = useCallback(() => {
+        const localFavorites = localStorage.getItem('favoriteMovies');
+        if (localFavorites) {
+            try {
+                const favoriteMovies = JSON.parse(localFavorites);
+                return favoriteMovies.some(fav => fav.id === movie.id);
+            } catch (error) {
+                console.error('Erro ao analisar favoritos do localStorage:', error);
+            }
         }
         return false;
+    }, [movie.id]);
+
+    // Função para buscar detalhes do filme
+    const fetchMovieDetails = async (movieId) => {
+        try {
+            const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
+                params: {
+                    api_key: API_KEY,
+                    language: 'pt-BR' // ou 'en-US' conforme necessário
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Erro ao buscar detalhes do filme:', error);
+            return null;
+        }
     };
 
-    // Função para adicionar ou remover o filme dos favoritos
-    const handleToggleFavorite = () => {
-        const cookiesFavorites = Cookies.get('favoriteMovies');
-        let favoriteMovies = cookiesFavorites ? JSON.parse(cookiesFavorites) : [];
+    // Atualiza o estado inicial de favorito
+    useEffect(() => {
+        setIsFavorite(checkIfMovieIsFavorite());
+    }, [checkIfMovieIsFavorite]);
 
-        if (isMovieFavorite()) {
+    // Lida com a mudança de estado de favorito
+    const handleToggleFavorite = async () => {
+        let favoriteMovies = localStorage.getItem('favoriteMovies');
+        favoriteMovies = favoriteMovies ? JSON.parse(favoriteMovies) : [];
+
+        if (isFavorite) {
+            // Remove o filme dos favoritos
             favoriteMovies = favoriteMovies.filter(fav => fav.id !== movie.id);
+            console.log(`Filme removido dos favoritos: ${movie.title}`);
         } else {
-            favoriteMovies.push(movie);
+            // Busca detalhes do filme e adiciona aos favoritos
+            const movieDetails = await fetchMovieDetails(movie.id);
+            if (movieDetails) {
+                favoriteMovies.push(movieDetails);
+                console.log(`Filme adicionado aos favoritos: ${movie.title}`);
+            }
         }
 
-        Cookies.set('favoriteMovies', JSON.stringify(favoriteMovies), { expires: 7 });
-        onFavoriteToggle();
+        localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies));
+        setIsFavorite(!isFavorite);
     };
 
     return (
         <button
-            className={`favorite-button ${isMovieFavorite() ? 'favorite' : 'not-favorite'}`}
+            className={`favorite-button ${isFavorite ? 'favorite' : 'not-favorite'}`}
             onClick={handleToggleFavorite}
         >
-            <FontAwesomeIcon icon={isMovieFavorite() ? faHeartBroken : faHeart} />
+            <FontAwesomeIcon icon={isFavorite ? faHeart : faHeart} />
         </button>
     );
 };

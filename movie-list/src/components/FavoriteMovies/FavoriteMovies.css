@@ -1,38 +1,105 @@
 .favorite-movies {
-    padding: 20px;
-    height: 100%;
-    min-height: 100vh;
-  }
-  
-  .favorite-movies-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .favorite-movie-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-  }
-  
-  .favorite-movie-poster {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-  
-  .favorite-movie-details {
-    flex: 1;
-  }
-  
-  .favorite-movie-title {
-    font-size: 18px;
-    margin: 0;
-  }
-  
-  .favorite-movie-release-date {
-    color: #666;
-  }
+  padding: 20px;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.favorite-movies-supertitle {
+  color: #fff;
+}
+
+.favorite-movies-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.favorite-movie-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  position: relative;
+  text-align: center;
+  margin-right: 15px;
+  cursor: pointer;
+  box-shadow: 0px 10px 5px 1px rgba(0, 0, 0, 0.43);
+  flex-direction: column;
+  background-color: transparent; /* Fundo dos itens */
+  border-radius: 10px; /* Bordas arredondadas para os itens */
+  color: #fff; /* Texto branco */
+}
+
+.favorite-movie-poster {
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 10px; /* Arredondamento das bordas */
+  box-shadow: 10px 10px 5px -7px rgba(0, 0, 0, 0.43);
+}
+
+.favorite-movie-details {
+  flex: 1 1;
+  display: block;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  margin-top: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 165px;
+}
+
+.favorite-movie-title {
+  font-size: 15px;
+  margin: 0;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.favorite-movie-release-date {
+  color: #ddd;
+  font-size: 14px;
+}
+
+.favorite-movie-rating-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.favorite-movie-rating-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid #161616!important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  background-color: transparent; 
+}
+
+.favorite-movie-rating-text {
+  font-size: 14px;
+  color: #fff;
+  background: #161616;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+}
+
+.favorite-movie-rating {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
